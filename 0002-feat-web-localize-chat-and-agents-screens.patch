@@ -1,0 +1,254 @@
+From e0ad410f50a0f2a62fdf62db867c8ed94083a8b1 Mon Sep 17 00:00:00 2001
+From: Hajime Taguchi <hajime.taguchi.bp@jp.nttdata.com>
+Date: Sat, 20 Jun 2026 22:14:52 +0900
+Subject: [PATCH] feat(web): localize chat and agents screens
+
+---
+ web/src/app/nrf/NRFChrome.tsx                  | 12 ++++++------
+ web/src/lib/chat/greetingMessages.ts           |  2 +-
+ web/src/lib/constants.ts                       |  2 +-
+ web/src/refresh-pages/AgentsNavigationPage.tsx | 22 +++++++++++-----------
+ web/src/sections/agents/AgentsFilters.tsx      | 18 +++++++++---------
+ web/src/sections/input/AppInputBar.tsx         | 14 +++++++-------
+ 6 files changed, 35 insertions(+), 35 deletions(-)
+diff --git a/web/src/app/nrf/NRFChrome.tsx b/web/src/app/nrf/NRFChrome.tsx
+index a943982..797384b 100644
+--- a/web/src/app/nrf/NRFChrome.tsx
++++ b/web/src/app/nrf/NRFChrome.tsx
+@@ -74,7 +74,7 @@ export default function NRFChrome() {
+     settings?.enterpriseSettings?.custom_lower_disclaimer_content ||
+     `[Onyx ${
+       settings?.webVersion || "dev"
+-    }](https://www.onyx.app/) - Open Source AI Platform`;
++    }](https://www.onyx.app/) - オープンソース AI プラットフォーム`;
+ 
+   const showModeToggle =
+     businessTier &&
+@@ -104,7 +104,7 @@ export default function NRFChrome() {
+                     effectiveMode === "search" ? SvgSearchMenu : SvgBubbleText
+                   }
+                 >
+-                  {effectiveMode === "search" ? "Search" : "Chat"}
++                  {effectiveMode === "search" ? "検索" : "チャット"}
+                 </OpenButton>
+               </Popover.Trigger>
+               <Popover.Content align="start" width="lg">
+@@ -112,24 +112,24 @@ export default function NRFChrome() {
+                   <LineItem
+                     icon={SvgSearchMenu}
+                     selected={effectiveMode === "search"}
+-                    description="Quick search for documents"
++                    description="ドキュメントをすばやく検索"
+                     onClick={noProp(() => {
+                       setAppMode("search");
+                       setModePopoverOpen(false);
+                     })}
+                   >
+-                    Search
++                    検索
+                   </LineItem>
+                   <LineItem
+                     icon={SvgBubbleText}
+                     selected={effectiveMode === "chat"}
+-                    description="Conversation and research"
++                    description="会話と調査"
+                     onClick={noProp(() => {
+                       setAppMode("chat");
+                       setModePopoverOpen(false);
+                     })}
+                   >
+-                    Chat
++                    チャット
+                   </LineItem>
+                 </Popover.Menu>
+               </Popover.Content>
+diff --git a/web/src/lib/chat/greetingMessages.ts b/web/src/lib/chat/greetingMessages.ts
+index fe3220a..d788915 100644
+--- a/web/src/lib/chat/greetingMessages.ts
++++ b/web/src/lib/chat/greetingMessages.ts
+@@ -1,4 +1,4 @@
+-export const GREETING_MESSAGES = ["How can I help?", "Let's get started."];
++export const GREETING_MESSAGES = ["何をお手伝いできますか？", "はじめましょう。"];
+ 
+ export function getRandomGreeting(): string {
+   return GREETING_MESSAGES[
+diff --git a/web/src/lib/constants.ts b/web/src/lib/constants.ts
+index adbbd94..2b3f3a7 100644
+--- a/web/src/lib/constants.ts
++++ b/web/src/lib/constants.ts
+@@ -145,6 +145,6 @@ export const DEFAULT_LOGO_SIZE_PX = 24;
+ export const DEFAULT_CONTEXT_TOKENS = 120_000;
+ export const MAX_CHUNKS_FED_TO_CHAT = 25;
+ 
+-export const APP_SLOGAN = "Open Source AI Platform";
++export const APP_SLOGAN = "オープンソース AI プラットフォーム";
+ 
+ export const DEFAULT_PAGE_SIZE = 10;
+diff --git a/web/src/refresh-pages/AgentsNavigationPage.tsx b/web/src/refresh-pages/AgentsNavigationPage.tsx
+index c0ba4db..ec42f24 100644
+--- a/web/src/refresh-pages/AgentsNavigationPage.tsx
++++ b/web/src/refresh-pages/AgentsNavigationPage.tsx
+@@ -95,15 +95,15 @@ export default function AgentsNavigationPage() {
+     >
+       <SettingsLayouts.Header
+         icon={SvgOnyxOctagon}
+-        title="Agents"
+-        description="Customize AI behavior and knowledge for you and your team's use cases."
++        title="エージェント"
++        description="あなたやチームの用途に合わせて、AI の振る舞いと知識をカスタマイズします。"
+         rightChildren={
+           <Button
+             href="/app/agents/create"
+             icon={SvgPlus}
+             aria-label="AgentsPage/new-agent-button"
+           >
+-            New Agent
++            新しいエージェント
+           </Button>
+         }
+       >
+@@ -112,7 +112,7 @@ export default function AgentsNavigationPage() {
+             <div className="flex-2">
+               <InputTypeIn
+                 ref={searchInputRef}
+-                placeholder="Search agents..."
++                placeholder="エージェントを検索..."
+                 value={searchQuery}
+                 onChange={(event) => setSearchQuery(event.target.value)}
+                 searchIcon
+@@ -124,8 +124,8 @@ export default function AgentsNavigationPage() {
+                 onValueChange={(value) => setActiveTab(value as "all" | "your")}
+               >
+                 <Tabs.List>
+-                  <Tabs.Trigger value="all">All Agents</Tabs.Trigger>
+-                  <Tabs.Trigger value="your">Your Agents</Tabs.Trigger>
++                  <Tabs.Trigger value="all">すべてのエージェント</Tabs.Trigger>
++                  <Tabs.Trigger value="your">自分のエージェント</Tabs.Trigger>
+                 </Tabs.List>
+               </Tabs>
+             </div>
+@@ -142,19 +142,19 @@ export default function AgentsNavigationPage() {
+             className="w-full h-full flex flex-col items-center justify-center py-12"
+             text03
+           >
+-            No Agents found
++            エージェントが見つかりません
+           </Text>
+         ) : (
+           <>
+             <AgentsSection
+-              title="Featured Agents"
+-              description="Curated by your team"
++              title="おすすめのエージェント"
++              description="チームによって選定されています"
+               agents={featuredAgents}
+             />
+-            <AgentsSection title="All Agents" agents={allAgents} />
++            <AgentsSection title="すべてのエージェント" agents={allAgents} />
+             <TextSeparator
+               count={agentCount}
+-              text={agentCount === 1 ? "Agent" : "Agents"}
++              text="件のエージェント"
+             />
+           </>
+         )}
+diff --git a/web/src/sections/agents/AgentsFilters.tsx b/web/src/sections/agents/AgentsFilters.tsx
+index a508c39..6b51c6e 100644
+--- a/web/src/sections/agents/AgentsFilters.tsx
++++ b/web/src/sections/agents/AgentsFilters.tsx
+@@ -226,23 +226,23 @@ export function useAgentsFilters<T extends MinimalAgent>(
+   // -- Filter button labels --------------------------------------------------
+ 
+   const creatorFilterButtonText = useMemo(() => {
+-    if (selectedCreatorIds.size === 0) return "Everyone";
++    if (selectedCreatorIds.size === 0) return "すべての作成者";
+     if (selectedCreatorIds.size === 1) {
+       const selectedId = Array.from(selectedCreatorIds)[0];
+       const creator = uniqueCreators.find((c) => c.id === selectedId);
+-      return creator ? `By ${creator.email}` : "Everyone";
++      return creator ? `${creator.email} が作成` : "すべての作成者";
+     }
+-    return `${selectedCreatorIds.size} people`;
++    return `${selectedCreatorIds.size} 人を選択中`;
+   }, [selectedCreatorIds, uniqueCreators]);
+ 
+   const actionsFilterButtonText = useMemo(() => {
+-    if (selectedActionKeys.size === 0) return "All Actions";
++    if (selectedActionKeys.size === 0) return "すべてのアクション";
+     if (selectedActionKeys.size === 1) {
+       const key = Array.from(selectedActionKeys)[0];
+       const item = uniqueActions.find((a) => actionFilterKey(a) === key);
+-      return item?.name ?? "All Actions";
++      return item?.name ?? "すべてのアクション";
+     }
+-    return `${selectedActionKeys.size} selected`;
++    return `${selectedActionKeys.size} 件を選択中`;
+   }, [selectedActionKeys, uniqueActions]);
+ 
+   // -- Filtered agents -------------------------------------------------------
+@@ -297,7 +297,7 @@ export function useAgentsFilters<T extends MinimalAgent>(
+             {[
+               <InputTypeIn
+                 key="created-by"
+-                placeholder="Created by..."
++                placeholder="作成者で検索..."
+                 variant="internal"
+                 searchIcon
+                 value={creatorFilter.query}
+@@ -315,7 +315,7 @@ export function useAgentsFilters<T extends MinimalAgent>(
+                     selectVariant="select-heavy"
+                     icon={SvgUser}
+                     title={creator.email}
+-                    description={isCurrentUser ? "Me" : undefined}
++                    description={isCurrentUser ? "自分" : undefined}
+                     state={isSelected ? "selected" : "empty"}
+                     onClick={() => {
+                       setSelectedCreatorIds((prev) => {
+@@ -352,7 +352,7 @@ export function useAgentsFilters<T extends MinimalAgent>(
+             {[
+               <InputTypeIn
+                 key="actions"
+-                placeholder="Filter actions..."
++                placeholder="アクションを検索..."
+                 variant="internal"
+                 searchIcon
+                 value={actionsFilter.query}
+diff --git a/web/src/sections/input/AppInputBar.tsx b/web/src/sections/input/AppInputBar.tsx
+index 902ac86..6c8a865 100644
+--- a/web/src/sections/input/AppInputBar.tsx
++++ b/web/src/sections/input/AppInputBar.tsx
+@@ -833,7 +833,7 @@ const AppInputBar = React.memo(
+                       ref={inputRef}
+                       id="onyx-chat-input-textbox"
+                       role="textbox"
+-                      aria-label="Message input"
++                      aria-label="メッセージ入力"
+                       contentEditable={!disabled}
+                       suppressContentEditableWarning
+                       onPaste={handlePaste}
+@@ -854,17 +854,17 @@ const AppInputBar = React.memo(
+                       }}
+                       aria-multiline={true}
+                       aria-disabled={disabled}
+-                      aria-placeholder="How can I help you today?"
++                      aria-placeholder="今日は何をお手伝いできますか？"
+                       data-placeholder={
+                         queuedMessages.length > 0 && !message
+-                          ? "Press up to edit queued messages"
++                          ? "上キーで待機中のメッセージを編集"
+                           : isRecording
+-                            ? "Listening..."
++                            ? "聞き取り中..."
+                             : isVoicePlaybackActive
+-                              ? "Onyx is speaking..."
++                              ? "Onyx が読み上げ中..."
+                               : isSearchMode
+-                                ? "Search connected sources"
+-                                : "How can I help you today?"
++                                ? "接続済みソースを検索"
++                                : "今日は何をお手伝いできますか？"
+                       }
+                       data-empty={!message ? "" : undefined}
+                       onKeyDown={(event) => {
+-- 
+2.50.0.windows.1

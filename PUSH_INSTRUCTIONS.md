@@ -3,6 +3,7 @@
 この zip には、以下を同梱しています。
 
 - `0001-feat-web-add-Japanese-UI-localization-draft.patch`
+- `0002-feat-web-localize-chat-and-agents-screens.patch`
 - `onyx-ja-i18n-patch.bundle`
 - `onyx_ja_i18n_patch_draft.md`
 - `PUSH_INSTRUCTIONS.md`
@@ -15,7 +16,7 @@
 git init
 git branch -M main
 git remote add origin https://github.com/tag2001/onyx_ja_i18n_patch.git
-git add README.md .gitignore 0001-feat-web-add-Japanese-UI-localization-draft.patch onyx-ja-i18n-patch.bundle onyx_ja_i18n_patch_draft.md PUSH_INSTRUCTIONS.md
+git add README.md .gitignore 0001-feat-web-add-Japanese-UI-localization-draft.patch 0002-feat-web-localize-chat-and-agents-screens.patch onyx-ja-i18n-patch.bundle onyx_ja_i18n_patch_draft.md PUSH_INSTRUCTIONS.md
 git commit -m "Add Onyx Japanese i18n patch package"
 git push -u origin main
 ```
@@ -32,6 +33,13 @@ cd onyx
 git checkout b70008df6b538c40e2a44414d751e73494a0ab3e
 git switch -c ja-i18n
 git am /path/to/0001-feat-web-add-Japanese-UI-localization-draft.patch
+git am /path/to/0002-feat-web-localize-chat-and-agents-screens.patch
+```
+
+既に `0001` を適用済みの Onyx v4.1.3 環境では、追加分として次だけを実行できます。
+
+```bash
+git am /path/to/0002-feat-web-localize-chat-and-agents-screens.patch
 ```
 
 ## サーバ上の Onyx に安全に適用する手順
@@ -46,6 +54,7 @@ unzip onyx_ja_i18n_transfer_20260610.zip -d onyx_ja_patch
 
 git switch -c ja-i18n
 git am onyx_ja_patch/0001-feat-web-add-Japanese-UI-localization-draft.patch
+git am onyx_ja_patch/0002-feat-web-localize-chat-and-agents-screens.patch
 ```
 
 Onyx 本体が `/home/ubuntuuser/onyx-dot-app/onyx/` のように 1 階層下に clone されている場合:
@@ -57,6 +66,7 @@ unzip onyx_ja_i18n_transfer_20260610.zip -d onyx_ja_patch
 cd /home/ubuntuuser/onyx-dot-app/onyx
 git switch -c ja-i18n
 git am ../onyx_ja_patch/0001-feat-web-add-Japanese-UI-localization-draft.patch
+git am ../onyx_ja_patch/0002-feat-web-localize-chat-and-agents-screens.patch
 ```
 
 正しい場所かどうかは、`git am` の前に以下で確認してください。
